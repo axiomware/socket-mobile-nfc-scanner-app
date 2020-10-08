@@ -63,6 +63,8 @@ var gOptionsFE = {
 
 var gTopicPrefixFE = args['prefix']
 
+var connectionPendingNodeList = {}
+
 const gNetrunrClient = new gapiV3Lib.gapiClient();                      
 main();
 
@@ -128,31 +130,43 @@ async function bleAdvHandler(linkHandle, gwid, advData){
     };
 
 
-    D600UBadv.forEach(node => {         //connect to all D600UB devices
-        logger.info({log: node}, `[${gwid}]:adv D600UBadv`);
-        linkHandle.connect(node, connenctionParameters, 20000).then((devHdl) => {
-            if(devHdl.subcode ==0) {
-                D600UnbondedDeviceHandler(devHdl)
-            }
-        })
+    D600UBadv.forEach(nodeObj => {         //connect to all D600UB devices
+        logger.info({log: nodeObj}, `[${gwid}]:adv D600UBadv`);
+        if(!(nodeObj.node in connectionPendingNodeList)){
+            connectionPendingNodeList[nodeObj.node] = true
+            linkHandle.connect(nodeObj, connenctionParameters, 20000).then((devHdl) => {
+                delete connectionPendingNodeList[nodeObj.node]
+                if(devHdl.subcode ==0) {
+                    D600UnbondedDeviceHandler(devHdl)
+                }
+            })
+        }
     });
 
-    D600Badv.forEach(node => {          //connect to all D600B devices
-        logger.info({log: node}, `[${gwid}]:adv D600Badv`);
-        linkHandle.connect(node, connenctionParameters, 20000).then((devHdl) => {
-            if(devHdl.subcode ==0) {
-                D600BondedDeviceHandler(devHdl)
-            }
-        })
+    D600Badv.forEach(nodeObj => {          //connect to all D600B devices
+        logger.info({log: nodeObj}, `[${gwid}]:adv D600Badv`);
+        if(!(nodeObj.node in connectionPendingNodeList)){
+            connectionPendingNodeList[nodeObj.node] = true
+            linkHandle.connect(nodeObj, connenctionParameters, 20000).then((devHdl) => {
+                delete connectionPendingNodeList[nodeObj.node]
+                if(devHdl.subcode ==0) {
+                    D600BondedDeviceHandler(devHdl)
+                }
+            })
+        }
     });
 
-    S550adv.forEach(node => {           //connect to all S550 devices
-        logger.info({log: node}, `[${gwid}]:adv S550adv`);
-        linkHandle.connect(node, connenctionParameters, 20000).then((devHdl) => {
-            if(devHdl.subcode ==0) {
-                S550ReaderdeviceHandler(devHdl)
-            }
-        })
+    S550adv.forEach(nodeObj => {           //connect to all S550 devices
+        logger.info({log: nodeObj}, `[${gwid}]:adv S550adv`);
+        if(!(nodeObj.node in connectionPendingNodeList)){
+            connectionPendingNodeList[nodeObj.node] = true
+            linkHandle.connect(nodeObj, connenctionParameters, 20000).then((devHdl) => {
+                delete connectionPendingNodeList[nodeObj.node]
+                if(devHdl.subcode ==0) {
+                    S550ReaderdeviceHandler(devHdl)
+                }
+            })
+        }
     });
 
 }
