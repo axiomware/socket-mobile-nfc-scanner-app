@@ -52,13 +52,23 @@ This example uses the default setup of the Netrunr gateway:
 
 ## Usage
 
-Run the nodejs application to collect advertisements for 10 seconds:
+Run the nodejs application to collect NFC scan indications:
 
 `node socketMobile-NFC-scanner-app.js -h '192.168.8.1' -p 1883 -t 'netrunrfe'`
 
 To force exit at any time, use:
 
 `CTRL-C`  
+
+## D600 and S550 Library tests
+
+To test the D600 NFC scan library (no hardware required):
+
+`node d600-data-test.js`
+
+To test the S550 NFC scan library (no hardware required):
+
+`node s550-data-test.js`
 
 ## Error conditions/Troubleshooting
 
