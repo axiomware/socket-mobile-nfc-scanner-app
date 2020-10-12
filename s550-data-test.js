@@ -18,7 +18,7 @@
 
 const springCoreLib = require('./lib/springCoreUtils.js')
 
-const scUtils = new springCoreLib.springCoreUtils()
+const scUtils = new springCoreLib.SpringCoreUtils()
 
 // s550 - short NFC read example 1
 var str1a = 'cc5b0020b0c10420030100c20702c40044f99db6c30f73742e636f6d2f6e66632d72666964'
