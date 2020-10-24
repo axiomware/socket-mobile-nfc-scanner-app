@@ -11,6 +11,9 @@ This Program will illustrate the following API functions:
 - Run continuous background scan for BLE advertisements.
 - Manage data collection from multiple concurrent devices using event handlers.
 - Verify the configuration of the gateway and MQTT broker.
+- TLS support
+- Use MQTT5 protocol `request/response` features
+- Use MQTT5 protocol `correlationData` features
 
 **This example uses promises and async/await functionality present in Nodejs version 8.+**.
 
@@ -55,6 +58,16 @@ This example uses the default setup of the Netrunr gateway:
 Run the nodejs application to collect NFC scan indications:
 
 `node socketMobile-NFC-scanner-app.js -h '192.168.8.1' -p 1883 -t 'netrunrfe'`
+
+To force exit at any time, use:
+
+`CTRL-C`  
+
+## Usage with TLS
+
+The `tls` flag will enable operation over MQTTS. This mode will use client certificates and collect data over secure link:
+
+`node socketMobile-NFC-scanner-app.js -h 'yourmqtthostname.com' -p 8883 -t 'netrunrfe' --tls --ca-filename='./yourRootCA.pem' --key-filename='./your-private-key.pem.key' --crt-filename='./your-client-certificate.pem.crt'`
 
 To force exit at any time, use:
 

@@ -18,7 +18,7 @@
 
 const d600ReaderLib = require('./lib/d600ReaderLib.js')
 
-const d600Utils = new d600ReaderLib.d600Utils()
+const d600Utils = new d600ReaderLib.D600Utils()
 
 // d600 - short NFC read example 1
 var str1a = '344673742e636f6d2f6e66632d7266696400'
